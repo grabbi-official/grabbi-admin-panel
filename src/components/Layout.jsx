@@ -1,11 +1,6 @@
 import { Outlet, Link, useLocation } from 'react-router-dom'
 import { useState } from 'react'
 import {
-  HomeIcon,
-  CubeIcon,
-  ShoppingBagIcon,
-  TagIcon,
-  MegaphoneIcon,
   BuildingStorefrontIcon,
   UserGroupIcon,
   ArrowRightOnRectangleIcon,
@@ -17,13 +12,10 @@ export default function Layout({ onLogout }) {
   const location = useLocation()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
+  // Dashboard, Products, Orders, Categories and Promotions have moved to the
+  // HQ app. The admin panel now only manages Franchises and Users.
   const navigation = [
-    { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
-    { name: 'Products', href: '/products', icon: CubeIcon },
-    { name: 'Orders', href: '/orders', icon: ShoppingBagIcon },
     { name: 'Franchises', href: '/franchises', icon: BuildingStorefrontIcon },
-    { name: 'Categories', href: '/categories', icon: TagIcon },
-    { name: 'Promotions', href: '/promotions', icon: MegaphoneIcon },
     { name: 'Users', href: '/users', icon: UserGroupIcon },
   ]
 
