@@ -52,31 +52,33 @@ describe('Route Protection (App routing)', () => {
   })
 
   describe('Authenticated access', () => {
-    it('renders Layout with Dashboard when authenticated', async () => {
+    it('renders Layout landing on Franchises when authenticated', async () => {
       storageMock.setItem('admin_token', 'valid-admin-token')
 
       render(<App />)
 
-      // After token validation via /admin/products?limit=1, it should show dashboard
-      // 'Dashboard' appears in both the sidebar nav link and the page heading
+      // After token validation the index route redirects to /franchises, which
+      // is now the panel's home. 'Franchises' appears in the sidebar nav link.
       await waitFor(() => {
-        const dashboardElements = screen.getAllByText('Dashboard')
-        expect(dashboardElements.length).toBeGreaterThanOrEqual(1)
+        const franchisesElements = screen.getAllByText('Franchises')
+        expect(franchisesElements.length).toBeGreaterThanOrEqual(1)
       })
+      // Dashboard has moved to HQ and is no longer part of this app's chrome.
+      expect(screen.queryByText('Dashboard')).not.toBeInTheDocument()
     })
   })
 
   describe('Login page redirect when authenticated', () => {
-    it('redirects from /login to dashboard when already authenticated', async () => {
+    it('redirects from /login to the Franchises home when already authenticated', async () => {
       storageMock.setItem('admin_token', 'valid-admin-token')
 
       render(<App />)
 
       await waitFor(() => {
-        // Should not show login page, should show dashboard
+        // Should not show login page, should show the retained app chrome
         expect(screen.queryByText('Sign in to your admin account')).not.toBeInTheDocument()
-        const dashboardElements = screen.getAllByText('Dashboard')
-        expect(dashboardElements.length).toBeGreaterThanOrEqual(1)
+        const franchisesElements = screen.getAllByText('Franchises')
+        expect(franchisesElements.length).toBeGreaterThanOrEqual(1)
       })
     })
   })
